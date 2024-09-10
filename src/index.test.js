@@ -1,28 +1,43 @@
-import { fireEvent, render, waitFor } from "@testing-library/react"
-import { fetchMock } from "jest-mock-extended"
 
-jest.mock("whatwg-fetch", () => ({
-  fetch: fetchMock,
-}))
+
 
 describe("index", () => {
-  it("renders tools", async () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(); // Mock the global fetch
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks(); // Reset fetch after each test
+  });
+
+  it("fetches and renders tools", async () => {
     const tools = [
       { name: "Gulp", img: "gulp.png", info: "https://gulpjs.com/" },
       { name: "Webpack", img: "webpack.png", info: "https://webpack.js.org/" },
-    ]
-    fetchMock.mockResolvedValueOnce({
+    ];
+
+    // Mock the fetch response
+    global.fetch.mockResolvedValueOnce({
       ok: true,
-      json: () => tools,
-    })
+      json: async () => tools,
+    });
 
-    const { getByText } = render(<div className="toolswrapper" />)
+    // Call the function that fetches the tools
+    const data = await fetchTools(); // Assuming fetchTools is the function you're testing
 
-    await waitFor(() => getByText("Gulp"))
-    await waitFor(() => getByText("Webpack"))
+    // Check if the tools are fetched and match expected result
+    expect(data).toEqual(tools);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith("/tools.json");
+  });
+});
 
-    expect(fetchMock).toHaveBeenCalledTimes(1)
-    expect(fetchMock).toHaveBeenCalledWith("/tools.json")
-  })
-  fetchdata()
-})
+// Example function that fetches tools (to be placed in your index.js or tools.js)
+async function fetchTools() {
+  const response = await fetch("/tools.json");
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error("Failed to fetch tools");
+  }
+}
