@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Gulp",
+    "info": "https://gulpjs.com/",
+    "img": "/images/cdnlogo.com_gulp.svg"
+  },
+  {
+    "name": "Webpack",
+    "info": "https://webpack.js.org/",
+    "img": "/images/webpack.png"
+  },
+  {
+    "name": "Vite",
+    "info": "https://www.jenkins.io/",
+    "img": "/images/viteoo.jpg"
+  },
+  {
+    "name": "Ansible",
+    "info": "https://www.ansible.com/",
+    "img": "/images/ansible.png"
+  },
+  {
+    "name": "GitLab",
+    "info": "https://about.gitlab.com/",
+    "img": "/images/git.png"
+  },
+  {
+    "name": "CMake",
+    "info": "https://cmake.org/",
+    "img": "/images/cmake.png"
+  }
+]
